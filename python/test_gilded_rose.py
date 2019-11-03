@@ -36,6 +36,14 @@ class GildedRoseTest(unittest.TestCase):
         gilded_rose = self.gilded_rose_update_quality([Item("Aged Brie", 1, 50)])
         self.assertEqual(50, gilded_rose.items[0].quality)
 
+    def test_sulfuras_quality_should_keep_quality(self):
+        gilded_rose = self.gilded_rose_update_quality([Item("Sulfuras, Hand of Ragnaros", 1, 2)])
+        self.assertEqual(2, gilded_rose.items[0].quality)
+
+    def test_sulfuras_quality_should_keep_quality(self):
+        gilded_rose = self.gilded_rose_update_quality([Item("Sulfuras, Hand of Ragnaros", 1, 2)])
+        self.assertEqual(1, gilded_rose.items[0].sell_in)
+
     def gilded_rose_update_quality(self, items):
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
