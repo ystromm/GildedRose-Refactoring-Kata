@@ -10,5 +10,12 @@ class GildedRoseTest(unittest.TestCase):
         gilded_rose.update_quality()
         self.assertEqual("foo", items[0].name)
 
+    def empty_should_return_empty(self):
+        items = []
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEqual([], gilded_rose.items)
+
+
 if __name__ == '__main__':
     unittest.main()
