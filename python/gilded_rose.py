@@ -6,37 +6,46 @@ class GildedRose(object):
         self.items = items
 
     def update_quality(self):
-        self.items = [self.update_quality_for_item(item) for item in self.items]
+        self.items = [self._update_quality_for_item(item) for item in self.items]
 
-    def update_quality_for_item(self, item):
+    def _update_quality_for_item(self, item):
         if item.name == "Sulfuras, Hand of Ragnaros":
             return Item(item.name, item.sell_in, item.quality)
         else:
-            item.sell_in = item.sell_in - 1
-            if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
-                if item.quality > 0:
-                    item.quality = item.quality - 1
-            else:
+            if item.name == "Aged Brie":
+                item.sell_in = item.sell_in - 1
                 if item.quality < 50:
                     item.quality = item.quality + 1
-                    if item.name == "Backstage passes to a TAFKAL80ETC concert":
-                        if item.sell_in < 11:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
-                        if item.sell_in < 6:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
-            if item.sell_in < 0:
-                if item.name != "Aged Brie":
-                    if item.name != "Backstage passes to a TAFKAL80ETC concert":
-                        if item.quality > 0:
-                            item.quality = item.quality - 1
-                    else:
-                        item.quality = 0
+                if item.sell_in < 0:
+                    if item.quality < 50:
+                        item.quality = item.quality + 1
+                return Item(item.name, item.sell_in, item.quality)
+            else:
+                item.sell_in = item.sell_in - 1
+                if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
+                    if item.quality > 0:
+                        item.quality = item.quality - 1
                 else:
                     if item.quality < 50:
                         item.quality = item.quality + 1
-            return Item(item.name, item.sell_in, item.quality)
+                        if item.name == "Backstage passes to a TAFKAL80ETC concert":
+                            if item.sell_in < 11:
+                                if item.quality < 50:
+                                    item.quality = item.quality + 1
+                            if item.sell_in < 6:
+                                if item.quality < 50:
+                                    item.quality = item.quality + 1
+                if item.sell_in < 0:
+                    if item.name != "Aged Brie":
+                        if item.name != "Backstage passes to a TAFKAL80ETC concert":
+                            if item.quality > 0:
+                                item.quality = item.quality - 1
+                        else:
+                            item.quality = 0
+                    else:
+                        if item.quality < 50:
+                            item.quality = item.quality + 1
+                return Item(item.name, item.sell_in, item.quality)
 
 
 class Item:
