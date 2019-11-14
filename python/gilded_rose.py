@@ -13,49 +13,46 @@ class GildedRose(object):
             return Item(item.name, item.sell_in, item.quality)
         else:
             if item.name == "Aged Brie":
-                item.sell_in = item.sell_in - 1
-                if item.quality < 50:
-                    item.quality = item.quality + 1
-                if item.sell_in < 0:
-                    if item.quality < 50:
-                        item.quality = item.quality + 1
-                return Item(item.name, item.sell_in, item.quality)
+                return self._update_quality_for_aged_brie(item)
             else:
                 if item.name == "Backstage passes to a TAFKAL80ETC concert":
-                    item.sell_in = item.sell_in - 1
-                    if item.quality < 50:
-                        item.quality = item.quality + 1
-                        if item.sell_in < 11:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
-                        if item.sell_in < 6:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
-                    if item.sell_in < 0:
-                        item.quality = 0
-                    return Item(item.name, item.sell_in, item.quality)
+                    return self._update_quality_for_backstage_pass(item)
                 else:
-                    item.sell_in = item.sell_in - 1
-                    if item.name != "Backstage passes to a TAFKAL80ETC concert":
-                        if item.quality > 0:
-                            item.quality = item.quality - 1
-                    else:
-                        if item.quality < 50:
-                            item.quality = item.quality + 1
-                            if item.name == "Backstage passes to a TAFKAL80ETC concert":
-                                if item.sell_in < 11:
-                                    if item.quality < 50:
-                                        item.quality = item.quality + 1
-                                if item.sell_in < 6:
-                                    if item.quality < 50:
-                                        item.quality = item.quality + 1
-                    if item.sell_in < 0:
-                        if item.name != "Backstage passes to a TAFKAL80ETC concert":
-                            if item.quality > 0:
-                                item.quality = item.quality - 1
-                        else:
-                            item.quality = 0
-                    return Item(item.name, item.sell_in, item.quality)
+                    return self._update_quality_for_other(item)
+
+    def _update_quality_for_aged_brie(self, item):
+        item.sell_in = item.sell_in - 1
+        if item.quality < 50:
+            item.quality = item.quality + 1
+        if item.sell_in < 0:
+            if item.quality < 50:
+                item.quality = item.quality + 1
+        return Item(item.name, item.sell_in, item.quality)
+
+    def _update_quality_for_backstage_pass(self, item):
+        sell_in = item.sell_in - 1
+        quality = item.quality
+        if quality < 50:
+            quality = quality + 1
+            if sell_in < 11:
+                if quality < 50:
+                    quality = quality + 1
+            if sell_in < 6:
+                if quality < 50:
+                    quality = quality + 1
+        if sell_in < 0:
+            quality = 0
+        return Item(item.name, sell_in, quality)
+
+    def _update_quality_for_other(self, item):
+        sell_in = item.sell_in - 1
+        quality = item.quality
+        if quality > 0:
+            quality = item.quality - 1
+        if sell_in < 0:
+            if quality > 0:
+                quality = quality - 1
+        return Item(item.name, sell_in, quality)
 
 
 class Item:
