@@ -10,50 +10,51 @@ class GildedRose(object):
 
     def _update_quality_for_item(self, item):
         if item.name == "Sulfuras, Hand of Ragnaros":
-            return Item(item.name, item.sell_in, item.quality)
+            return _update_quality_for_sulfurus(item)
+        elif item.name == "Aged Brie":
+            return _update_quality_for_aged_brie(item)
+        elif item.name == "Backstage passes to a TAFKAL80ETC concert":
+            return _update_quality_for_backstage_pass(item)
         else:
-            if item.name == "Aged Brie":
-                return self._update_quality_for_aged_brie(item)
-            else:
-                if item.name == "Backstage passes to a TAFKAL80ETC concert":
-                    return self._update_quality_for_backstage_pass(item)
-                else:
-                    return self._update_quality_for_other(item)
+            return _update_quality_for_other(item)
 
-    def _update_quality_for_aged_brie(self, item):
-        sell_in = item.sell_in - 1
-        quality = item.quality
+def _update_quality_for_sulfurus(item):
+    return Item(item.name, item.sell_in, 80)
+
+def _update_quality_for_aged_brie(item):
+    sell_in = item.sell_in - 1
+    quality = item.quality
+    if quality < 50:
+        quality = quality + 1
+    if sell_in < 0:
         if quality < 50:
             quality = quality + 1
-        if sell_in < 0:
+    return Item(item.name, sell_in, quality)
+
+def _update_quality_for_backstage_pass(item):
+    sell_in = item.sell_in - 1
+    quality = item.quality
+    if quality < 50:
+        quality = quality + 1
+        if sell_in < 11:
             if quality < 50:
                 quality = quality + 1
-        return Item(item.name, sell_in, quality)
+        if sell_in < 6:
+            if quality < 50:
+                quality = quality + 1
+    if sell_in < 0:
+        quality = 0
+    return Item(item.name, sell_in, quality)
 
-    def _update_quality_for_backstage_pass(self, item):
-        sell_in = item.sell_in - 1
-        quality = item.quality
-        if quality < 50:
-            quality = quality + 1
-            if sell_in < 11:
-                if quality < 50:
-                    quality = quality + 1
-            if sell_in < 6:
-                if quality < 50:
-                    quality = quality + 1
-        if sell_in < 0:
-            quality = 0
-        return Item(item.name, sell_in, quality)
-
-    def _update_quality_for_other(self, item):
-        sell_in = item.sell_in - 1
-        quality = item.quality
+def _update_quality_for_other(item):
+    sell_in = item.sell_in - 1
+    quality = item.quality
+    if quality > 0:
+        quality = item.quality - 1
+    if sell_in < 0:
         if quality > 0:
-            quality = item.quality - 1
-        if sell_in < 0:
-            if quality > 0:
-                quality = quality - 1
-        return Item(item.name, sell_in, quality)
+            quality = quality - 1
+    return Item(item.name, sell_in, quality)
 
 
 class Item:
