@@ -5,7 +5,7 @@ venv:
 
 .PHONY: test
 test: venv 
-	@ . venv/bin/activate && nosetests
+	@ . venv/bin/activate && pip install nose && nosetests
 
 ## Cleaning
 
