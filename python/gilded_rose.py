@@ -51,6 +51,12 @@ def update_brie(item):
 
 class GildedRose(object):
 
+    item_update_map = {
+        "Sulfuras, Hand of Ragnaros": update_sulfuras,
+        "Aged Brie": update_brie,
+        "Backstage passes to a TAFKAL80ETC concert": update_backstage_pass
+    }
+
     def __init__(self, items):
         self.items = items
 
@@ -58,18 +64,7 @@ class GildedRose(object):
         self.items = [self.update_item_quality(item) for item in self.items]
 
     def update_item_quality(self, item):
-        if item.name == "Sulfuras, Hand of Ragnaros":
-            updated_item = update_sulfuras(item)
-        elif item.name == "Aged Brie":
-            updated_item = update_brie(item)
-
-        elif item.name == "Backstage passes to a TAFKAL80ETC concert":
-            updated_item = update_backstage_pass(item)
-
-        else:
-            updated_item = update_normal_item(item)
-
-        return updated_item
+        return GildedRose.item_update_map.get(item.name, update_normal_item)(item)
 
 
 class Item:
