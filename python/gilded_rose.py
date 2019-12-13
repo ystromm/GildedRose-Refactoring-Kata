@@ -8,7 +8,7 @@ class GildedRose(object):
     def update_quality(self):
         for item in self.items:
             if item.name == "Sulfuras, Hand of Ragnaros":
-                pass
+                item.quality = 80
             elif item.name == "Aged Brie":
                 item.sell_in = item.sell_in - 1
                 if item.quality < 50:

@@ -47,7 +47,6 @@ class GildedRoseTest(TestCase):
         gilded_rose = self.gilded_rose_update_quality([Item("Sulfuras, Hand of Ragnaros", 1, 80)])
         self.assertEqual(80, gilded_rose.items[0].quality)
 
-    @skip
     def test_sulfuras_should_have_quality_80(self):
         gilded_rose = self.gilded_rose_update_quality([Item("Sulfuras, Hand of Ragnaros", 1, 1)])
         self.assertEqual(80, gilded_rose.items[0].quality)
