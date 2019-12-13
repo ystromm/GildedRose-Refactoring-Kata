@@ -11,6 +11,10 @@ class GildedRoseTest(TestCase):
         gilded_rose = self.gilded_rose_update_quality([Item("foo", 0, 0)])
         self.assertEqual("foo", gilded_rose.items[0].name)
 
+    def test_quality_for_old_item_not_negative(self):
+        gilded_rose = self.gilded_rose_update_quality([Item("foo", -1, 1)])
+        self.assertEqual(0, gilded_rose.items[0].quality)
+
     def test_empty_should_return_empty(self):
         gilded_rose = self.gilded_rose_update_quality([])
         self.assertEqual([], gilded_rose.items)
