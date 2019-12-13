@@ -72,10 +72,23 @@ class GildedRoseTest(TestCase):
         gilded_rose = self.gilded_rose_update_quality([Item("Backstage passes to a TAFKAL80ETC concert", 0, 10)])
         self.assertEqual(0, gilded_rose.items[0].quality)
 
+    def test_conjured(self):
+        gilded_rose = self.gilded_rose_update_quality([Item("Conjured Item", 2, 10)])
+        self.assertEqual(8, gilded_rose.items[0].quality)
+
+    def test_conjured_after_sell_by(self):
+        gilded_rose = self.gilded_rose_update_quality([Item("Conjured Item", -1, 10)])
+        self.assertEqual(6, gilded_rose.items[0].quality)
+
+    def test_conjured_never_negative(self):
+        gilded_rose = self.gilded_rose_update_quality([Item("Conjured Item", 0, 1)])
+        self.assertEqual(0, gilded_rose.items[0].quality)
+
     def gilded_rose_update_quality(self, items):
         gilded_rose = GildedRose(items)
+        print(f"Före {gilded_rose.items}")
         gilded_rose.update_quality()
-        print(gilded_rose.items)
+        print(f"Efter {gilded_rose.items}")
         return gilded_rose
 
     def test_regular_items_decrease_by_one(self):
