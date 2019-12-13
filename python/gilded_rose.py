@@ -12,10 +12,7 @@ class GildedRose(object):
             elif item.name == "Aged Brie":
                 item.sell_in = item.sell_in - 1
                 if item.quality < 50:
-                    if item.sell_in < 0:
-                        item.quality += 2
-                    else:
-                        item.quality += 1
+                    item.quality += self.quality_delta_aged_brie(item.sell_in)
             elif item.name == "Backstage passes to a TAFKAL80ETC concert":
                 if item.quality < 50:
                     item.quality += 1
@@ -35,6 +32,13 @@ class GildedRose(object):
                 if item.sell_in < 0:
                     if item.quality > 0:
                         item.quality = item.quality - 1
+
+    def quality_delta_aged_brie(self, item_sell_in):
+        if item_sell_in < 0:
+            delta = 2
+        else:
+            delta = 1
+        return delta
 
 
 class Item:
