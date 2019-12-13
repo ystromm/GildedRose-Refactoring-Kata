@@ -49,11 +49,32 @@ def update_brie(item):
     return updated_item
 
 
+def quality_limiter(update_func):
+    def wrapper(item):
+        updated_item = update_func(item)
+        updated_item.quality = max(0, min(50, updated_item.quality))
+        return updated_item
+    return wrapper
+
+
+@quality_limiter
+def update_conjured(item):
+    item.sell_in = item.sell_in - 1
+    if item.quality > 0:
+        item.quality = item.quality - 2
+    if item.sell_in < 0:
+        if item.quality > 0:
+            item.quality = item.quality - 2
+    updated_item = Item(item.name, item.sell_in, item.quality)
+    return updated_item
+
+
 class GildedRose(object):
 
     item_update_map = {
         "Sulfuras, Hand of Ragnaros": update_sulfuras,
         "Aged Brie": update_brie,
+        "Conjured Item": update_conjured,
         "Backstage passes to a TAFKAL80ETC concert": update_backstage_pass
     }
 
