@@ -75,7 +75,6 @@ class GildedRoseTest(TestCase):
     def gilded_rose_update_quality(self, items):
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
-        print(gilded_rose.items)
         return gilded_rose
 
     def test_regular_items_decrease_by_one(self):
